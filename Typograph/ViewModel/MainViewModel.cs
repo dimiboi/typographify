@@ -29,6 +29,8 @@ namespace Typograph.ViewModel
 
             Typographify = new RelayCommand(() =>
             {
+                _dispatcher.Invoke(() => IsWorking = true);
+
                 _service.Typographify(Text, (result, error) =>
                 {
                     if (error != null)
@@ -36,6 +38,8 @@ namespace Typograph.ViewModel
 
                     if (result != null)
                         _dispatcher.Invoke(() => Text = result);
+
+                    _dispatcher.Invoke(() => IsWorking = false);
                 });
             }
             , () => !string.IsNullOrWhiteSpace(Text) && !IsWorking);
