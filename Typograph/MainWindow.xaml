@@ -1,0 +1,68 @@
+﻿<Metro:MetroWindow x:Class="Typograph.MainWindow"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:Metro="http://metro.mahapps.com/winfx/xaml/controls"
+                   xmlns:System="clr-namespace:System;assembly=mscorlib"
+                   Title="Typograph"
+                   Width="525"
+                   Height="350"
+                   MinWidth="525"
+                   MinHeight="350"
+                   DataContext="{Binding Main,
+                                         Source={StaticResource Locator}}"
+                   ShowWindowCommandsOnTop="False"
+                   SnapsToDevicePixels="True"
+                   UseLayoutRounding="True">
+
+    <Metro:MetroWindow.WindowCommands>
+        <Metro:WindowCommands>
+            <Button Command="{Binding ShowSettingsFlyout}" Content="settings" />
+        </Metro:WindowCommands>
+    </Metro:MetroWindow.WindowCommands>
+
+    <Metro:MetroWindow.Flyouts>
+        <Metro:FlyoutsControl>
+            <Metro:Flyout Width="200"
+                          Header="settings"
+                          IsOpen="{Binding IsSettingsFlyoutOpen}"
+                          Position="Right">
+                <StackPanel Margin="20,0,20,20">
+                    <Metro:ToggleSwitch Margin="0,10,0,10"
+                                        Header="Line breaks"
+                                        IsChecked="{Binding Settings.IsLineBreaks}"
+                                        OffLabel="Disabled"
+                                        OnLabel="Enabled" />
+                    <Metro:ToggleSwitch Margin="0,10,0,10"
+                                        Header="Paragraphs"
+                                        IsChecked="{Binding Settings.IsParagraphs}"
+                                        OffLabel="Disabled"
+                                        OnLabel="Enabled" />
+                </StackPanel>
+            </Metro:Flyout>
+        </Metro:FlyoutsControl>
+    </Metro:MetroWindow.Flyouts>
+
+    <Border BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="1,0,1,1">
+        <Grid Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBox Grid.Row="0"
+                     AcceptsReturn="True"
+                     IsEnabled="{Binding IsWorking,
+                                         Converter={StaticResource InverseBooleanConverter}}"
+                     Text="{Binding Text,
+                                    Mode=TwoWay,
+                                    UpdateSourceTrigger=PropertyChanged}"
+                     TextWrapping="Wrap"
+                     VerticalScrollBarVisibility="Auto" />
+            <Button Grid.Row="1"
+                    MinWidth="82"
+                    Margin="0,10,0,0"
+                    HorizontalAlignment="Right"
+                    Command="{Binding Typographify}"
+                    Content="Typographify" />
+        </Grid>
+    </Border>
+</Metro:MetroWindow>
